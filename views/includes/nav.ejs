@@ -3,20 +3,22 @@
         <li>
             <a href="/">Home</a>
         </li>
-        <li>
-            <a href="/add-car">Add Car</a>
-        </li>
-        <% if(!token){ %>
-        <li>
-            <a href="/register">Register</a>
-        </li>
-        <li>
-            <a href="/login">Login</a>
-        </li>
-        <% } %> <% if(token){ %>
-        <li>
-            <a href="/logout">Logout</a>
-        </li>
-        <% } %>
+
+        <% if(! token ) {%>
+            <li>
+                <a href="/register">Register</a>
+            </li>
+            <li>
+                <a href="/login">Login</a>
+            </li>
+            <% } %>
+                <% if( token ) {%>
+                    <li>
+                        <a href="/add-car-form">Add Car</a>
+                    </li>
+                    <li>
+                        <a href="/log-out">Logout</a>
+                    </li>
+                    <%} %>
     </ul>
 </nav>

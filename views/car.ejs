@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>
+        <%= title %>
+    </title>
+</head>
+
+<body>
+    <%- include('./includes/nav.ejs', {token:token}) %>
+        <div class="card-container">
+            <% if (cars.length> 0) { %> <% cars.forEach((car)=> { %>
+
+                    <div class="cards">
+                        <img src="<%= car.img  %>" alt="9qvWEF.jpeg" class="model-picture">
+                        <h2 class="type">
+                            <%= car.model %>
+                        </h2>
+                        <p class="description">
+                            <%= car.description %>
+                        </p>
+                        <div class="shopping-container">
+                            <h3 class="price">
+                                <%= car.price %>$
+                            </h3>
+                        </div>
+                    </div>
+                    <% }) %>
+        </div>
+        <% } else { %>
+            <p>No Product available.</p>
+            <% } %>
+</body>
+
+</html>

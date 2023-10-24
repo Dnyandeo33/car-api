@@ -1,43 +1,58 @@
+import cookieParser from 'cookie-parser';
+import dotenv from 'dotenv';
+import express from 'express';
+
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
-import express from 'express';
-import dotenv from 'dotenv';
-import cookieParser from 'cookie-parser';
+import carRoutes from './routes/car.js';
+import userRoutes from './routes/user.js';
 
-// configure dotenv
+//configuration dotenv
+
 dotenv.config();
 const PORT = process.env.PORT || 3005;
+
+// absolute path
+
+const __filename = fileURLToPath(import.meta.url);
+const PATH = dirname(__filename);
 
 // initialize express
 const app = express();
 
-// construct path
-const __filename = fileURLToPath(import.meta.url);
-const PATH = dirname(__filename);
+// body parser
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser())
 
-// set template engine
+// // logger
+// app.use(logger);
+
+// set engin
 app.set('view engine', 'ejs');
 app.set('views', path.join(PATH, 'views'));
 
-// parse body and cookies
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
 
-// serve static folder
+//static folder
 app.use(express.static(path.join(PATH, 'public')));
 
-// use routes
+// route
+app.use(userRoutes);
+app.use(carRoutes);
 
-// handle 404
-app.use('*', (req, res) => {
+
+// 404
+app.use((req, res) => {
     res.status(404).render('404', {
-        title: 'Page not found',
-        message: `This page doesn't exist`
+        title: `Page not found`,
+        message: `Page doesn't exits`,
+        redirect: `/`,
+        linkText: `register`,
+        token: req.cookies.token
     });
 });
 
 app.listen(PORT, () => {
-    console.log(`Server is up and running on port : ${PORT}`);
+    console.log(`server listening on http://localhost:${PORT}`);
 });
